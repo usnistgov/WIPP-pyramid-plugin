@@ -40,13 +40,12 @@ public class PyramidBuilding {
 	private static final String PYRAMID_BUILDING_NAME_OPTION = "--name";
 	private static final String PYRAMID_BUILDING_DEPTH_OPTION = "--depth";
 	private static final String PYRAMID_BUILDING_BLENDING_OPTION = "--blending";
-	
-	private static final String DEPTH = "8U";
-	
+		
 	private final File tilesFolder;
     private final File stitchingVectorFolder;
     private final File outputFolder;
     private final String blendingOption;
+    private final String depthOption;
     private final int tileSize;
 
     private static final Logger LOG = Logger.getLogger(
@@ -57,11 +56,13 @@ public class PyramidBuilding {
     		File stitchingVector,
             File outputFolder, 
             String blendingOption,
+            String depthOption,
             int tileSize) {
         this.tilesFolder = tilesFolder;
         this.stitchingVectorFolder = stitchingVector;
         this.outputFolder = outputFolder;
         this.blendingOption = blendingOption;
+        this.depthOption = depthOption;
         this.tileSize = tileSize;
     }
 
@@ -98,7 +99,7 @@ public class PyramidBuilding {
     				+ PYRAMID_BUILDING_OUTPUT_DIR + " " + outputFolder.getAbsolutePath() + " "
     				+ PYRAMID_BUILDING_TILE_SIZE_OPTION + " " + String.valueOf(this.tileSize) + " "
     				+ PYRAMID_BUILDING_NAME_OPTION + " " + timeSliceStr + " "
-    				+ PYRAMID_BUILDING_DEPTH_OPTION + " " + DEPTH + " "
+    				+ PYRAMID_BUILDING_DEPTH_OPTION + " " + this.depthOption + " "
     				+ PYRAMID_BUILDING_BLENDING_OPTION + " " + this.blendingOption);
     		
     		// get output and error logs
@@ -112,7 +113,7 @@ public class PyramidBuilding {
     				p.getErrorStream()));
     		String sErr;
     		while ((sErr = stdErr.readLine()) != null) {
-    			LOG.info(sErr);
+    			LOG.severe(sErr);
     		}
     		
     		try {
@@ -120,9 +121,10 @@ public class PyramidBuilding {
     				throw new RuntimeException("Pyramid building command failed");
     			}
     		} catch (InterruptedException | RuntimeException e) {
-    			e.printStackTrace();
-    			LOG.info("Error during pyramid building execution");
-    			return null;
+    			String errorMessage = "Error during pyramid building execution";
+    			LOG.severe(e.getMessage());
+    			LOG.severe(errorMessage);
+    			throw new RuntimeException(errorMessage);
     		}
 
             

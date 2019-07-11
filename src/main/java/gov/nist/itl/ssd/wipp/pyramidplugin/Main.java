@@ -65,6 +65,10 @@ public class Main {
         blendingOption.setRequired(true);
         options.addOption(blendingOption);
 
+        Option depthOption = new Option("d", "depth", true,
+                "Image depth, options are 8U or 16U.");
+        depthOption.setRequired(true);
+        options.addOption(depthOption);
 		
 		CommandLineParser parser = new DefaultParser();
 	       try {
@@ -94,6 +98,11 @@ public class Main {
 	            String blending = blendingValue == null
 	            		? "overlay" : blendingValue;
 	            
+	            String depthValue = commandLine.getOptionValue(
+	            		depthOption.getOpt());
+	            String depth = depthValue == null
+	            		? "16U" : depthValue;
+	            
 	            try {
 	                long start = System.currentTimeMillis();
 
@@ -102,24 +111,24 @@ public class Main {
 						inputStitchingVector, 
 						outputFolder, 
 						blending,
+						depth,
 						tileSize);
 	                pb.run();
 	                
 	                float duration = (System.currentTimeMillis() - start) / 1000F;
 	                LOG.info("Pyramids built in " + duration + "s.");
 	            } catch (Exception ex) {
-	                LOG.severe("Error while building the pyramid.");
-	                ex.printStackTrace();
+	            	String errorMessage = "Error while building the pyramid.";
+	                LOG.severe(errorMessage);
+	                throw new RuntimeException(errorMessage);
 	            }
 	            
 
 	       } catch (ParseException ex) {
 	    	   LOG.severe(ex.getMessage());
 	           printHelp(options);
-	           return;
+	           throw new RuntimeException("Error while parsing arguments.");
 	       }
-	       
-	       
 
 	}
 	

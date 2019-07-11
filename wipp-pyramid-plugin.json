@@ -1,10 +1,10 @@
 {
 	"name": "WIPP Pyramid plugin",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"title": "WIPP Pyramid building",
 	"description": "Pyramid building using NIST accelerated C++ algorithm",
     "creator": "National Institute of Standards and Technology",
-	"containerId": "wipp/wipp-pyramid-plugin:0.0.1",
+	"containerId": "wipp/wipp-pyramid-plugin:0.0.2",
 
 	"inputs": [
 		{
@@ -33,6 +33,18 @@
 			},
 			"description": "Blending method when assembling tiles",
             "required": false
+		},
+        {
+			"name": "depth",
+			"type": "enum",
+			"options": {
+				"values": [
+					"8U",
+                    "16U"
+				]
+			},
+			"description": "Image depth",
+            "required": true
 		}
     ],
 	"outputs": [
@@ -57,6 +69,11 @@
 			"key": "inputs.blending",
 			"title": "Blending method: ",
 			"description": "Pick a blending method..."
+		},
+        {
+			"key": "inputs.depth",
+			"title": "Image depth: ",
+			"description": "Pick an image depth..."
 		}
     ]
 }
