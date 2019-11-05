@@ -3,7 +3,11 @@
 	"version": "0.0.2",
 	"title": "WIPP Pyramid building",
 	"description": "Pyramid building using NIST accelerated C++ algorithm",
-    "creator": "National Institute of Standards and Technology",
+	"author": "Antoine Gerardin and Mylene Simon",
+    	"institution": "National Institute of Standards and Technology",
+	"repository": "https://github.com/usnistgov/WIPP-pyramid-plugin",
+	"website": "https://isg.nist.gov/deepzoomweb/",
+	"citation": "Peter Bajcsy , Antoine Vandecreme, Julien Amelot, Joe Chalfoun, Michael Majurski, and Mary Brady. \"Enabling Stem Cell Characterization from Large Microscopy Images (pdf)\". IEEE Computer, July, 2016",
 	"containerId": "wipp/wipp-pyramid-plugin:0.0.2",
 
 	"inputs": [
