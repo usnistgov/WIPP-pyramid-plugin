@@ -1,4 +1,4 @@
-FROM wipp/pyramid-building:1.0.0
+FROM wipp/pyramid-building:1.1.0
 LABEL maintainer="National Institute of Standards and Technology"
 
 ARG EXEC_DIR="/opt/executables"
