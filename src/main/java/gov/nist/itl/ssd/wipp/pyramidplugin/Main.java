@@ -69,6 +69,11 @@ public class Main {
                 "Image depth, options are 8U or 16U.");
         depthOption.setRequired(true);
         options.addOption(depthOption);
+        
+        Option expertOption = new Option("e", "expert", true,
+                "Expert mode flags.");
+        expertOption.setRequired(false);
+        options.addOption(expertOption);
 		
 		CommandLineParser parser = new DefaultParser();
 	       try {
@@ -103,6 +108,9 @@ public class Main {
 	            String depth = depthValue == null
 	            		? "16U" : depthValue;
 	            
+	            String expertFlags = commandLine.getOptionValue(
+	                    expertOption.getOpt());
+	            
 	            try {
 	                long start = System.currentTimeMillis();
 
@@ -112,7 +120,8 @@ public class Main {
 						outputFolder, 
 						blending,
 						depth,
-						tileSize);
+						tileSize,
+						expertFlags);
 	                pb.run();
 	                
 	                float duration = (System.currentTimeMillis() - start) / 1000F;

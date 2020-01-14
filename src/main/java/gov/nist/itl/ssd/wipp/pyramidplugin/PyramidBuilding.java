@@ -40,6 +40,8 @@ public class PyramidBuilding {
 	private static final String PYRAMID_BUILDING_NAME_OPTION = "--name";
 	private static final String PYRAMID_BUILDING_DEPTH_OPTION = "--depth";
 	private static final String PYRAMID_BUILDING_BLENDING_OPTION = "--blending";
+	private static final String PYRAMID_BUILDING_EXPERT_FLAGS = "--expertmode";
+
 		
 	private final File tilesFolder;
     private final File stitchingVectorFolder;
@@ -47,6 +49,7 @@ public class PyramidBuilding {
     private final String blendingOption;
     private final String depthOption;
     private final int tileSize;
+    private final String expertFlags;
 
     private static final Logger LOG = Logger.getLogger(
             PyramidBuilding.class.getName());
@@ -57,13 +60,15 @@ public class PyramidBuilding {
             File outputFolder, 
             String blendingOption,
             String depthOption,
-            int tileSize) {
+            int tileSize,
+            String expertFlags) {
         this.tilesFolder = tilesFolder;
         this.stitchingVectorFolder = stitchingVector;
         this.outputFolder = outputFolder;
         this.blendingOption = blendingOption;
         this.depthOption = depthOption;
         this.tileSize = tileSize;
+        this.expertFlags = expertFlags;
     }
 
     public Integer run() throws Exception {
@@ -86,6 +91,12 @@ public class PyramidBuilding {
 	    
         int timeSlicesBuilt = 0;
         
+        // Check for expert flags
+		String pyramidBuildingCommand = this.expertFlags == null || this.expertFlags.isEmpty()
+				? PYRAMID_BUILDING_COMMAND
+				: PYRAMID_BUILDING_COMMAND + " " + PYRAMID_BUILDING_EXPERT_FLAGS + " " + this.expertFlags;
+        
+		// Process time slices one by one
         for (File timeSlice : timeSlices) {
             int timeSliceNb = Integer.parseInt(timeSlice.getName()
                     .replace(STITCHING_VECTOR_FILENAME_PREFIX, "")
@@ -93,7 +104,7 @@ public class PyramidBuilding {
             String timeSliceStr = String.format("%0" + nbDigits + "d", timeSliceNb);
             
             // calling C++ pyramid building executable
-    		Process p = Runtime.getRuntime().exec(PYRAMID_BUILDING_COMMAND + " "
+    		Process p = Runtime.getRuntime().exec(pyramidBuildingCommand + " "
             		+ PYRAMID_BUILDING_INPUT_IMAGES_OPTION + " " + tilesFolder.getAbsolutePath() + " "
     				+ PYRAMID_BUILDING_INPUT_SV_OPTION + " " + timeSlice.getAbsolutePath() + " "
     				+ PYRAMID_BUILDING_OUTPUT_DIR + " " + outputFolder.getAbsolutePath() + " "
