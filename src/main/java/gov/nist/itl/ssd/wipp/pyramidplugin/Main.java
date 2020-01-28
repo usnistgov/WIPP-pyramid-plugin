@@ -70,6 +70,10 @@ public class Main {
         depthOption.setRequired(true);
         options.addOption(depthOption);
         
+        Option formatOption = new Option("f", "format", true,
+                "Format, options are deepzoom or tiff (default deepzoom).");
+        options.addOption(formatOption);
+        
         Option expertOption = new Option("e", "expert", true,
                 "Expert mode flags.");
         expertOption.setRequired(false);
@@ -108,6 +112,11 @@ public class Main {
 	            String depth = depthValue == null
 	            		? "16U" : depthValue;
 	            
+	            String formatValue = commandLine.getOptionValue(
+	            		formatOption.getOpt());
+	            String format = formatValue == null
+	            		? "deepzoom" : formatValue;
+	            
 	            String expertFlags = commandLine.getOptionValue(
 	                    expertOption.getOpt());
 	            
@@ -120,6 +129,7 @@ public class Main {
 						outputFolder, 
 						blending,
 						depth,
+						format,
 						tileSize,
 						expertFlags);
 	                pb.run();

@@ -21,9 +21,11 @@ docker run \
     -v "path/to/input/data/folder":/data/inputs \
     -v "path/to/output/folder":/data/outputs \
     wipp-pyramid-plugin \
-    --inputImages /data/inputs/"inputCollectionTiledFolder"  
-    --inputStitchingVector /data/inputs/"stitchingVectorFolder" 
-    --blending overlay|max
+    --inputImages /data/inputs/"inputCollectionTiledFolder" \ 
+    --inputStitchingVector /data/inputs/"stitchingVectorFolder" \
+    --depth 8U|16U \
+    --blending overlay|max \
+    --format deepzoom|tiff \
     --output /data/outputs
  ```   
 

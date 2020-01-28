@@ -40,6 +40,7 @@ public class PyramidBuilding {
 	private static final String PYRAMID_BUILDING_NAME_OPTION = "--name";
 	private static final String PYRAMID_BUILDING_DEPTH_OPTION = "--depth";
 	private static final String PYRAMID_BUILDING_BLENDING_OPTION = "--blending";
+	private static final String PYRAMID_BUILDING_FORMAT_OPTION = "--format";
 	private static final String PYRAMID_BUILDING_EXPERT_FLAGS = "--expertmode";
 
 		
@@ -48,6 +49,7 @@ public class PyramidBuilding {
     private final File outputFolder;
     private final String blendingOption;
     private final String depthOption;
+    private final String formatOption;
     private final int tileSize;
     private final String expertFlags;
 
@@ -60,6 +62,7 @@ public class PyramidBuilding {
             File outputFolder, 
             String blendingOption,
             String depthOption,
+            String formatOption,
             int tileSize,
             String expertFlags) {
         this.tilesFolder = tilesFolder;
@@ -67,6 +70,7 @@ public class PyramidBuilding {
         this.outputFolder = outputFolder;
         this.blendingOption = blendingOption;
         this.depthOption = depthOption;
+        this.formatOption = formatOption;
         this.tileSize = tileSize;
         this.expertFlags = expertFlags;
     }
@@ -111,7 +115,8 @@ public class PyramidBuilding {
     				+ PYRAMID_BUILDING_TILE_SIZE_OPTION + " " + String.valueOf(this.tileSize) + " "
     				+ PYRAMID_BUILDING_NAME_OPTION + " " + timeSliceStr + " "
     				+ PYRAMID_BUILDING_DEPTH_OPTION + " " + this.depthOption + " "
-    				+ PYRAMID_BUILDING_BLENDING_OPTION + " " + this.blendingOption);
+    				+ PYRAMID_BUILDING_BLENDING_OPTION + " " + this.blendingOption + " "
+    				+ PYRAMID_BUILDING_FORMAT_OPTION + " " + this.formatOption);
     		
     		// get output and error logs
     		BufferedReader stdOut = new BufferedReader(new InputStreamReader(
