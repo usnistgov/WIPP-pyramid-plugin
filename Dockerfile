@@ -17,8 +17,8 @@ RUN apt-get update \
 # Copy wipp-pyramid-plugin JAR
 COPY target/wipp-pyramid-plugin*.jar ${EXEC_DIR}/wipp-pyramid-plugin.jar
 
-# Set working directory
-WORKDIR ${EXEC_DIR}
+# Move executable from /tmp folder to allow compatibility with Singularity
+RUN mv /tmp/commandLineCli /opt/executables/commandLineCli
 
 # Default command. Additional arguments are provided through the command line
-ENTRYPOINT ["/usr/bin/java", "-jar", "wipp-pyramid-plugin.jar"]
+ENTRYPOINT ["/usr/bin/java", "-jar", "/opt/executables/wipp-pyramid-plugin.jar"]

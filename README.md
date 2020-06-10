@@ -30,3 +30,11 @@ docker run \
  ```   
 
 
+## Build container
+
+Prerequisites: `java`, `mvn`
+
+```shell
+mvn package
+docker build . -t wipp-pyramid-plugin
+ ```   
