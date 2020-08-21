@@ -7,6 +7,13 @@ WIPP Pyramid Building plugin based on [NIST WIPP Pyramid Building](https://githu
 Reads multiple stitching vectors generated from [MIST](https://github.com/usnistgov/MIST) 
 and creates one pyramid from tiled TIFF images per stitching vector.
 
+## Build the JAR
+
+Requires Java 8 and Maven
+```shell
+mvn clean package
+```
+
 ## Docker distribution
 
 This plugin is available on [DockerHub from the WIPP organization](https://hub.docker.com/r/wipp/wipp-pyramid-plugin)
@@ -20,7 +27,7 @@ docker pull wipp/wipp-pyramid-plugin
 docker run \
     -v "path/to/input/data/folder":/data/inputs \
     -v "path/to/output/folder":/data/outputs \
-    wipp-pyramid-plugin \
+    wipp/wipp-pyramid-plugin \
     --inputImages /data/inputs/"inputCollectionTiledFolder" \ 
     --inputStitchingVector /data/inputs/"stitchingVectorFolder" \
     --depth 8U|16U \

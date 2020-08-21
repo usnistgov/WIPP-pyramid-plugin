@@ -32,7 +32,7 @@ public class PyramidBuilding {
 	private static final String STITCHING_VECTOR_FILENAME_SUFFIX = ".txt";
 	
 	// Pyramid building options
-	private static final String PYRAMID_BUILDING_COMMAND = "/tmp/commandLineCli";
+	private static final String PYRAMID_BUILDING_COMMAND = "/opt/executables/commandLineCli";
 	private static final String PYRAMID_BUILDING_INPUT_IMAGES_OPTION = "--images";
 	private static final String PYRAMID_BUILDING_INPUT_SV_OPTION = "--vector";
 	private static final String PYRAMID_BUILDING_OUTPUT_DIR = "--output";
