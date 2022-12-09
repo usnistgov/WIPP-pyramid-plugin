@@ -1,6 +1,6 @@
 {
 	"name": "WIPP Pyramid plugin",
-	"version": "0.0.7",
+	"version": "0.0.8",
 	"title": "WIPP Pyramid building",
 	"description": "Pyramid building using NIST accelerated C++ algorithm",
 	"author": "Antoine Gerardin and Mylene Simon",
@@ -8,7 +8,7 @@
 	"repository": "https://github.com/usnistgov/WIPP-pyramid-plugin",
 	"website": "https://isg.nist.gov/deepzoomweb/",
 	"citation": "Peter Bajcsy , Antoine Vandecreme, Julien Amelot, Joe Chalfoun, Michael Majurski, and Mary Brady. \"Enabling Stem Cell Characterization from Large Microscopy Images (pdf)\". IEEE Computer, July, 2016",
-	"containerId": "wipp/wipp-pyramid-plugin:0.0.7",
+	"containerId": "wipp/wipp-pyramid-plugin:0.0.8",
 
 	"inputs": [
 		{
@@ -49,13 +49,7 @@
 			},
 			"description": "Image depth",
             "required": true
-		},
-        {
-            "name": "expert",
-            "type": "string",
-            "required": "false",
-            "description": "Undocumented parameter for advanced control."
-        }
+		}
     ],
 	"outputs": [
 		{

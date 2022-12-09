@@ -15,6 +15,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
@@ -79,6 +80,7 @@ public class PyramidBuilding {
         File[] timeSlices = stitchingVectorFolder.listFiles((dir, fn)
                 -> fn.startsWith(STITCHING_VECTOR_FILENAME_PREFIX)
                 && fn.endsWith(STITCHING_VECTOR_FILENAME_SUFFIX));
+        Arrays.sort(timeSlices);
 
         outputFolder.mkdirs();
 	    
@@ -96,9 +98,7 @@ public class PyramidBuilding {
         int timeSlicesBuilt = 0;
         
         // Check for expert flags
-		String pyramidBuildingCommand = this.expertFlags == null || this.expertFlags.isEmpty()
-				? PYRAMID_BUILDING_COMMAND
-				: PYRAMID_BUILDING_COMMAND + " " + PYRAMID_BUILDING_EXPERT_FLAGS + " " + this.expertFlags;
+        String pyramidBuildingCommand = PYRAMID_BUILDING_COMMAND;
         
 		// Process time slices one by one
         for (File timeSlice : timeSlices) {
@@ -106,18 +106,24 @@ public class PyramidBuilding {
                     .replace(STITCHING_VECTOR_FILENAME_PREFIX, "")
                     .replace(STITCHING_VECTOR_FILENAME_SUFFIX, ""));
             String timeSliceStr = String.format("%0" + nbDigits + "d", timeSliceNb);
+
+            LOG.info("Building pyramid " + timeSliceStr + "...");
             
             // calling C++ pyramid building executable
-    		Process p = Runtime.getRuntime().exec(pyramidBuildingCommand + " "
-            		+ PYRAMID_BUILDING_INPUT_IMAGES_OPTION + " " + tilesFolder.getAbsolutePath() + " "
-    				+ PYRAMID_BUILDING_INPUT_SV_OPTION + " " + timeSlice.getAbsolutePath() + " "
-    				+ PYRAMID_BUILDING_OUTPUT_DIR + " " + outputFolder.getAbsolutePath() + " "
-    				+ PYRAMID_BUILDING_TILE_SIZE_OPTION + " " + String.valueOf(this.tileSize) + " "
-    				+ PYRAMID_BUILDING_NAME_OPTION + " " + timeSliceStr + " "
-    				+ PYRAMID_BUILDING_DEPTH_OPTION + " " + this.depthOption + " "
-    				+ PYRAMID_BUILDING_BLENDING_OPTION + " " + this.blendingOption + " "
-    				+ PYRAMID_BUILDING_FORMAT_OPTION + " " + this.formatOption);
-    		
+            ProcessBuilder processBuilder = new ProcessBuilder(
+                    pyramidBuildingCommand,
+                    PYRAMID_BUILDING_INPUT_IMAGES_OPTION, tilesFolder.getAbsolutePath(),
+                    PYRAMID_BUILDING_INPUT_SV_OPTION, timeSlice.getAbsolutePath(),
+                    PYRAMID_BUILDING_OUTPUT_DIR, outputFolder.getAbsolutePath(),
+                    PYRAMID_BUILDING_TILE_SIZE_OPTION, String.valueOf(this.tileSize),
+                    PYRAMID_BUILDING_NAME_OPTION, timeSliceStr,
+                    PYRAMID_BUILDING_DEPTH_OPTION, this.depthOption,
+                    PYRAMID_BUILDING_BLENDING_OPTION, this.blendingOption,
+                    PYRAMID_BUILDING_FORMAT_OPTION, this.formatOption,
+                    PYRAMID_BUILDING_EXPERT_FLAGS, this.expertFlags);
+
+            processBuilder.redirectErrorStream(true);
+            Process p = processBuilder.start();
     		// get output and error logs
     		BufferedReader stdOut = new BufferedReader(new InputStreamReader(
     				p.getInputStream()));
@@ -125,15 +131,10 @@ public class PyramidBuilding {
     		while ((s = stdOut.readLine()) != null) {
     			LOG.info(s);
     		}
-    		BufferedReader stdErr = new BufferedReader(new InputStreamReader(
-    				p.getErrorStream()));
-    		String sErr;
-    		while ((sErr = stdErr.readLine()) != null) {
-    			LOG.severe(sErr);
-    		}
     		
     		try {
     			if (p.waitFor()!= 0) {
+    				LOG.severe("Pyramid building error.");
     				throw new RuntimeException("Pyramid building command failed");
     			}
     		} catch (InterruptedException | RuntimeException e) {
@@ -143,7 +144,6 @@ public class PyramidBuilding {
     			throw new RuntimeException(errorMessage);
     		}
 
-            
             timeSlicesBuilt++;
         }
 

@@ -73,11 +73,6 @@ public class Main {
         Option formatOption = new Option("f", "format", true,
                 "Format, options are deepzoom or tiff (default deepzoom).");
         options.addOption(formatOption);
-        
-        Option expertOption = new Option("e", "expert", true,
-                "Expert mode flags.");
-        expertOption.setRequired(false);
-        options.addOption(expertOption);
 		
 		CommandLineParser parser = new DefaultParser();
 	       try {
@@ -117,9 +112,6 @@ public class Main {
 	            String format = formatValue == null
 	            		? "deepzoom" : formatValue;
 	            
-	            String expertFlags = commandLine.getOptionValue(
-	                    expertOption.getOpt());
-	            
 	            try {
 	                long start = System.currentTimeMillis();
 
@@ -131,7 +123,7 @@ public class Main {
 						depth,
 						format,
 						tileSize,
-						expertFlags);
+						"lowfootprint=1");
 	                pb.run();
 	                
 	                float duration = (System.currentTimeMillis() - start) / 1000F;
@@ -139,14 +131,16 @@ public class Main {
 	            } catch (Exception ex) {
 	            	String errorMessage = "Error while building the pyramid.";
 	                LOG.severe(errorMessage);
-	                throw new RuntimeException(errorMessage);
+	                System.exit(-1);
+	                return;
 	            }
 	            
 
 	       } catch (ParseException ex) {
-	    	   LOG.severe(ex.getMessage());
+	    	   LOG.severe("Error while parsing arguments: " + ex.getMessage());
 	           printHelp(options);
-	           throw new RuntimeException("Error while parsing arguments.");
+	           System.exit(1);
+	           return;
 	       }
 
 	}
@@ -156,7 +150,8 @@ public class Main {
      * @param options
      */
     private static void printHelp(Options options) {
-        new HelpFormatter().printHelp("wipp-pyramid-building", options);
+        new HelpFormatter().printHelp("wipp-pyramid-building",
+				options);
     }
 
 }

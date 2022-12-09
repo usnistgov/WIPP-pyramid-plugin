@@ -1,6 +1,10 @@
 FROM wipp/pyramid-building:1.1.3
 LABEL maintainer="National Institute of Standards and Technology"
 
+# Logging settings
+ENV GLOG_logtostderr=1
+ENV GLOG_v=1
+
 # Create folders
 RUN mkdir -p /opt/executables \
     && mkdir -p ${DATA_DIR}/inputs \

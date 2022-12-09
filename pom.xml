@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>gov.nist.itl.isg</groupId>
 	<artifactId>wipp-pyramid-plugin</artifactId>
-	<version>0.0.7</version>
+	<version>0.0.8</version>
 	<name>WIPP pyramid plugin</name>
 
 	<properties>
