@@ -52,11 +52,6 @@
 			"key": "inputs.maxThresholdScaler",
 			"title": "(Optional) Maximum threshold for intensity scaling: ",
 			"description": "Enter pixel intensity value..."
-		},
-        {
-            "key": "inputs.expert",
-            "title": "Advanced Options ",
-            "description": "Expert Flags..."
-        }
+		}
     ]
 }
