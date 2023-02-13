@@ -1,9 +1,5 @@
-FROM wipp/pyramid-building:1.1.3
+FROM wipp/hedgehogpyramidbuilder:0.0.1
 LABEL maintainer="National Institute of Standards and Technology"
-
-# Logging settings
-ENV GLOG_logtostderr=1
-ENV GLOG_v=1
 
 # Create folders
 RUN mkdir -p /opt/executables \

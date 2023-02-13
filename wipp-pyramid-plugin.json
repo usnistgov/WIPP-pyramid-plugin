@@ -1,54 +1,33 @@
 {
 	"name": "WIPP Pyramid plugin",
-	"version": "0.0.8",
-	"title": "WIPP Pyramid building",
+	"version": "1.0.0-a",
+	"title": "WIPP Hedgehog Pyramid building",
 	"description": "Pyramid building using NIST accelerated C++ algorithm",
-	"author": "Antoine Gerardin and Mylene Simon",
-    	"institution": "National Institute of Standards and Technology",
+	"author": "Timothy Blattner and Mylene Simon",
+	"institution": "National Institute of Standards and Technology",
 	"repository": "https://github.com/usnistgov/WIPP-pyramid-plugin",
 	"website": "https://isg.nist.gov/deepzoomweb/",
 	"citation": "Peter Bajcsy , Antoine Vandecreme, Julien Amelot, Joe Chalfoun, Michael Majurski, and Mary Brady. \"Enabling Stem Cell Characterization from Large Microscopy Images (pdf)\". IEEE Computer, July, 2016",
-	"containerId": "wipp/wipp-pyramid-plugin:0.0.8",
+	"containerId": "wipp/wipp-pyramid-plugin:1.0.0-a",
 
 	"inputs": [
 		{
 			"name": "inputImages",
 			"type": "collection",
-            "options": {
-				"format": "tiledtiff"
-			},
 			"description": "Input Images",
             "required": true
 		},
         {
-			"name": "inputStitchingVector",
-			"type": "stitchingVector",
-			"description": "Input Stitching Vector",
-            "required": true
-		},
-        {
-			"name": "blending",
-			"type": "enum",
-			"options": {
-				"values": [
-					"overlay",
-                    "max"
-				]
-			},
-			"description": "Blending method when assembling tiles",
+			"name": "minThresholdScaler",
+			"type": "number",
+			"description": "The minimum threshold used for scaling images, if min/max are the same, then scaling is disabled [default: 0]",
             "required": false
 		},
-        {
-			"name": "depth",
-			"type": "enum",
-			"options": {
-				"values": [
-					"8U",
-                    "16U"
-				]
-			},
-			"description": "Image depth",
-            "required": true
+		{
+			"name": "maxThresholdScaler",
+			"type": "number",
+			"description": "The maximum threshold used for scaling images, if min/max are the same, then scaling is disabled [default: 0]",
+			"required": false
 		}
     ],
 	"outputs": [
@@ -65,19 +44,14 @@
 			"description": "Pick a collection..."
 		},
         {
-			"key": "inputs.inputStitchingVector",
-			"title": "Input Stitching Vector: ",
-			"description": "Pick a stitching vector..."
+			"key": "inputs.minThresholdScaler",
+			"title": "(Optional) Minimum threshold for intensity scaling: ",
+			"description": "Enter pixel intensity value..."
 		},
         {
-			"key": "inputs.blending",
-			"title": "Blending method: ",
-			"description": "Pick a blending method..."
-		},
-        {
-			"key": "inputs.depth",
-			"title": "Image depth: ",
-			"description": "Pick an image depth..."
+			"key": "inputs.maxThresholdScaler",
+			"title": "(Optional) Maximum threshold for intensity scaling: ",
+			"description": "Enter pixel intensity value..."
 		},
         {
             "key": "inputs.expert",

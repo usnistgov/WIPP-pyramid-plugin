@@ -45,10 +45,10 @@ public class Main {
         inputOption.setRequired(true);
         options.addOption(inputOption);
         
-        Option inputSvOption = new Option("v", "inputStitchingVectors", true,
-                "Input stitching vectors folder.");
-        inputSvOption.setRequired(true);
-        options.addOption(inputSvOption);
+//        Option inputSvOption = new Option("v", "inputStitchingVectors", true,
+//                "Input stitching vectors folder.");
+//        inputSvOption.setRequired(true);
+//        options.addOption(inputSvOption);
 
         Option outputOption = new Option("o", "output", true,
                 "Output folder or file where the output will be generated.");
@@ -60,19 +60,26 @@ public class Main {
         tileSizeOption.setType(PatternOptionBuilder.NUMBER_VALUE);
         options.addOption(tileSizeOption);
 
-        Option blendingOption = new Option("b", "blending", true,
-                "Blending method when assembling tiles, options are max or overlay.");
-        blendingOption.setRequired(true);
-        options.addOption(blendingOption);
-
-        Option depthOption = new Option("d", "depth", true,
-                "Image depth, options are 8U or 16U.");
-        depthOption.setRequired(true);
-        options.addOption(depthOption);
+//        Option blendingOption = new Option("b", "blending", true,
+//                "Blending method when assembling tiles, options are max or overlay.");
+//        blendingOption.setRequired(true);
+//        options.addOption(blendingOption);
         
-        Option formatOption = new Option("f", "format", true,
-                "Format, options are deepzoom or tiff (default deepzoom).");
-        options.addOption(formatOption);
+//        Option formatOption = new Option("f", "format", true,
+//                "Format, options are deepzoom or tiff (default deepzoom).");
+//        options.addOption(formatOption);
+
+		Option minThresholdScalerOption = new Option("mins", "minThresholdScaler", true,
+				"The minimum threshold used for scaling images, " +
+						"if min/max are the same, then scaling is disabled [default: 0]");
+		minThresholdScalerOption.setType(PatternOptionBuilder.NUMBER_VALUE);
+		options.addOption(minThresholdScalerOption);
+
+		Option maxThresholdScalerOption = new Option("maxs", "maxThresholdScaler", true,
+				"The maximum threshold used for scaling images, " +
+						"if min/max are the same, then scaling is disabled [default: 0]");
+		maxThresholdScalerOption.setType(PatternOptionBuilder.NUMBER_VALUE);
+		options.addOption(maxThresholdScalerOption);
 		
 		CommandLineParser parser = new DefaultParser();
 	       try {
@@ -86,8 +93,8 @@ public class Main {
 	           File inputImages = new File(
 	                    commandLine.getOptionValue(inputOption.getOpt()));
 	           
-	           File inputStitchingVector = new File(
-	                    commandLine.getOptionValue(inputSvOption.getOpt()));
+//	           File inputStitchingVector = new File(
+//	                    commandLine.getOptionValue(inputSvOption.getOpt()));
 	
 	           File outputFolder = new File(
 	        		   commandLine.getOptionValue(outputOption.getOpt()));
@@ -97,33 +104,38 @@ public class Main {
 	            int tileSize = tileSizeNumber == null
 	                    ? 1024 : tileSizeNumber.intValue();
 	            
-	            String blendingValue = commandLine.getOptionValue(
-	                    blendingOption.getOpt());
-	            String blending = blendingValue == null
-	            		? "overlay" : blendingValue;
+//	            String blendingValue = commandLine.getOptionValue(
+//	                    blendingOption.getOpt());
+//	            String blending = blendingValue == null
+//	            		? "overlay" : blendingValue;
 	            
-	            String depthValue = commandLine.getOptionValue(
-	            		depthOption.getOpt());
-	            String depth = depthValue == null
-	            		? "16U" : depthValue;
-	            
-	            String formatValue = commandLine.getOptionValue(
-	            		formatOption.getOpt());
-	            String format = formatValue == null
-	            		? "deepzoom" : formatValue;
+//	            String formatValue = commandLine.getOptionValue(
+//	            		formatOption.getOpt());
+//	            String format = formatValue == null
+//	            		? "deepzoom" : formatValue;
+
+			   Number minThresholdScalerNumber = (Number) commandLine.getParsedOptionValue(
+					   minThresholdScalerOption.getOpt());
+			   int minThresholdScaler = minThresholdScalerNumber == null
+					   ? 0 : minThresholdScalerNumber.intValue();
+
+			   Number maxThresholdScalerNumber = (Number) commandLine.getParsedOptionValue(
+					   maxThresholdScalerOption.getOpt());
+			   int maxThresholdScaler = maxThresholdScalerNumber == null
+					   ? 0 : maxThresholdScalerNumber.intValue();
 	            
 	            try {
 	                long start = System.currentTimeMillis();
 
 	                PyramidBuilding pb = new PyramidBuilding(
 						inputImages, 
-						inputStitchingVector, 
+						null,
 						outputFolder, 
-						blending,
-						depth,
-						format,
+						null,
+						null,
 						tileSize,
-						"lowfootprint=1");
+						minThresholdScaler,
+						maxThresholdScaler);
 	                pb.run();
 	                
 	                float duration = (System.currentTimeMillis() - start) / 1000F;
