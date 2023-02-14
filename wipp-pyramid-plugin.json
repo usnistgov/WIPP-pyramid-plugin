@@ -5,7 +5,7 @@
 	"description": "Pyramid building using NIST accelerated C++ algorithm",
 	"author": "Timothy Blattner and Mylene Simon",
 	"institution": "National Institute of Standards and Technology",
-	"repository": "https://github.com/usnistgov/WIPP-pyramid-plugin",
+	"repository": "https://github.com/usnistgov/WIPP-pyramid-plugin/tree/3d-single-image-z2t-demo",
 	"website": "https://isg.nist.gov/deepzoomweb/",
 	"citation": "Peter Bajcsy , Antoine Vandecreme, Julien Amelot, Joe Chalfoun, Michael Majurski, and Mary Brady. \"Enabling Stem Cell Characterization from Large Microscopy Images (pdf)\". IEEE Computer, July, 2016",
 	"containerId": "wipp/wipp-pyramid-plugin:3d-slices",
