@@ -1,5 +1,5 @@
 {
-	"name": "WIPP Pyramid plugin",
+	"name": "WIPP Pyramid plugin - 3D slices",
 	"version": "3d-slices",
 	"title": "WIPP Hedgehog Pyramid building - 3D slices",
 	"description": "Pyramid building using NIST accelerated C++ algorithm",
@@ -16,6 +16,11 @@
 			"type": "collection",
 			"description": "Input Image - first image of the collection will be processed",
             "required": true
+		}, {
+			"name": "filenameFilter",
+			"type": "string",
+			"description": "Filename filter defined as file extension/suffix (ex: .ome.tif, _ch00.ome.tif)",
+			"required": false
 		}
     ],
 	"outputs": [
@@ -30,6 +35,11 @@
 			"key": "inputs.inputImages",
 			"title": "Input Image: ",
 			"description": "Pick a collection..."
+		}, {
+			"key": "inputs.filenameFilter",
+			"title": "Filename filter, enter file extension/suffix (ex: .ome.tif, _ch00.ome.tif - default: .ome.tif)",
+			"description": "Enter the image name extension",
+			"hidden": false
 		}
     ]
 }

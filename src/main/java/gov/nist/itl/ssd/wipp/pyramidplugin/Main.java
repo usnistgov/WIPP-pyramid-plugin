@@ -44,6 +44,11 @@ public class Main {
                 "Input images folder - images to convert to dzi.");
         inputOption.setRequired(true);
         options.addOption(inputOption);
+
+		Option filenameOption = new Option("f", "filenameFilter", true,
+				"Filename filter, enter file extension/suffix (ex: .ome.tif, _ch00.ome.tif).");
+		filenameOption.setRequired(false);
+		options.addOption(filenameOption);
         
 //        Option inputSvOption = new Option("v", "inputStitchingVectors", true,
 //                "Input stitching vectors folder.");
@@ -103,6 +108,11 @@ public class Main {
 	                    tileSizeOption.getOpt());
 	            int tileSize = tileSizeNumber == null
 	                    ? 1024 : tileSizeNumber.intValue();
+
+			   String filenameFilterValue = commandLine.getOptionValue(
+					   filenameOption.getOpt());
+			   String filenameFilter = filenameFilterValue == null
+					   ? ".ome.tif" : filenameFilterValue;
 	            
 //	            String blendingValue = commandLine.getOptionValue(
 //	                    blendingOption.getOpt());
@@ -135,7 +145,8 @@ public class Main {
 						null,
 						tileSize,
 						minThresholdScaler,
-						maxThresholdScaler);
+						maxThresholdScaler,
+						filenameFilter);
 	                pb.run();
 	                
 	                float duration = (System.currentTimeMillis() - start) / 1000F;

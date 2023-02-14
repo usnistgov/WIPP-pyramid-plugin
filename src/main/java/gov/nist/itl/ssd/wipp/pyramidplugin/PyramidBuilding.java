@@ -61,6 +61,8 @@ public class PyramidBuilding {
 
     private final int maxThresholdScaler;
 
+    private final String imagesFileNameExtension;
+
     private static final Logger LOG = Logger.getLogger(
             PyramidBuilding.class.getName());
 
@@ -72,7 +74,8 @@ public class PyramidBuilding {
             String formatOption,
             int tileSize,
             int minThresholdScaler,
-            int maxThresholdScaler) {
+            int maxThresholdScaler,
+            String imagesFileNameExtension) {
         this.tilesFolder = tilesFolder;
         this.stitchingVectorFolder = stitchingVector;
         this.outputFolder = outputFolder;
@@ -81,6 +84,7 @@ public class PyramidBuilding {
         this.tileSize = tileSize;
         this.minThresholdScaler = minThresholdScaler;
         this.maxThresholdScaler = maxThresholdScaler;
+        this.imagesFileNameExtension = imagesFileNameExtension;
     }
 
     public Integer run() throws Exception {
@@ -92,7 +96,7 @@ public class PyramidBuilding {
         File zStack = tilesFolder.listFiles(new FileFilter() {
             @Override
             public boolean accept(File pathname) {
-                return (!pathname.isHidden() && pathname.isFile());
+                return (!pathname.isHidden() && pathname.isFile() && pathname.getName().toLowerCase().endsWith(imagesFileNameExtension));
             }
         })[0];
 
