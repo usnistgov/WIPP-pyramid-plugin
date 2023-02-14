@@ -11,17 +11,17 @@
  */
 package gov.nist.itl.ssd.wipp.pyramidplugin;
 
+import loci.common.DebugTools;
+import loci.formats.ImageWriter;
+import loci.formats.tools.ImageConverter;
+import org.apache.commons.io.FileUtils;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Class for running C++ pyramid building over series of time frames
@@ -87,7 +87,24 @@ public class PyramidBuilding {
 //        File[] timeSlices = stitchingVectorFolder.listFiles((dir, fn)
 //                -> fn.startsWith(STITCHING_VECTOR_FILENAME_PREFIX)
 //                && fn.endsWith(STITCHING_VECTOR_FILENAME_SUFFIX));
-        File[] timeSlices = tilesFolder.listFiles(new FileFilter() {
+
+        // Get first z-stack of the collection (demo mode - only one image processed)
+        File zStack = tilesFolder.listFiles(new FileFilter() {
+            @Override
+            public boolean accept(File pathname) {
+                return (!pathname.isHidden() && pathname.isFile());
+            }
+        })[0];
+
+        outputFolder.mkdirs();
+        File tmpDirSlices = new File(outputFolder, "zslices-plugin");
+        tmpDirSlices.mkdirs();
+        DebugTools.enableLogging("INFO");
+        ImageConverter imgConverter = new ImageConverter();
+        String[] converterArgs = {zStack.getAbsolutePath(), tmpDirSlices.getAbsolutePath() + "/Z%z.ome.tif",
+        "-padded", "-autoscale"};
+        imgConverter.testConvert(new ImageWriter(), converterArgs);
+        File[] timeSlices = tmpDirSlices.listFiles(new FileFilter() {
             @Override
             public boolean accept(File pathname) {
                 return (!pathname.isHidden() && pathname.isFile());
@@ -96,8 +113,6 @@ public class PyramidBuilding {
         Arrays.sort(timeSlices);
         int nbFiles = timeSlices.length;
         int nbDigits = Integer.toString(nbFiles).length();
-
-        outputFolder.mkdirs();
 	    
 //	    List<Integer> timeSliceInt = new ArrayList<Integer>();
 //	    for (File timeSlice : timeSlices) {
@@ -162,7 +177,9 @@ public class PyramidBuilding {
         if (timeSlicesBuilt == 0) {
             throw new RuntimeException("No time slice found.");
         }
-        
+
+        FileUtils.deleteDirectory(tmpDirSlices);
+
         return timeSlicesBuilt;
     }
 

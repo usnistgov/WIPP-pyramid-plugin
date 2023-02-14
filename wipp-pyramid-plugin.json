@@ -1,33 +1,21 @@
 {
 	"name": "WIPP Pyramid plugin",
-	"version": "1.0.0-a",
-	"title": "WIPP Hedgehog Pyramid building",
+	"version": "3d-slices",
+	"title": "WIPP Hedgehog Pyramid building - 3D slices",
 	"description": "Pyramid building using NIST accelerated C++ algorithm",
 	"author": "Timothy Blattner and Mylene Simon",
 	"institution": "National Institute of Standards and Technology",
 	"repository": "https://github.com/usnistgov/WIPP-pyramid-plugin",
 	"website": "https://isg.nist.gov/deepzoomweb/",
 	"citation": "Peter Bajcsy , Antoine Vandecreme, Julien Amelot, Joe Chalfoun, Michael Majurski, and Mary Brady. \"Enabling Stem Cell Characterization from Large Microscopy Images (pdf)\". IEEE Computer, July, 2016",
-	"containerId": "wipp/wipp-pyramid-plugin:1.0.0-a",
+	"containerId": "wipp/wipp-pyramid-plugin:3d-slices",
 
 	"inputs": [
 		{
 			"name": "inputImages",
 			"type": "collection",
-			"description": "Input Images",
+			"description": "Input Image - first image of the collection will be processed",
             "required": true
-		},
-        {
-			"name": "minThresholdScaler",
-			"type": "number",
-			"description": "The minimum threshold used for scaling images, if min/max are the same, then scaling is disabled [default: 0]",
-            "required": false
-		},
-		{
-			"name": "maxThresholdScaler",
-			"type": "number",
-			"description": "The maximum threshold used for scaling images, if min/max are the same, then scaling is disabled [default: 0]",
-			"required": false
 		}
     ],
 	"outputs": [
@@ -40,18 +28,8 @@
 	"ui": [
 		{
 			"key": "inputs.inputImages",
-			"title": "Input Images: ",
+			"title": "Input Image: ",
 			"description": "Pick a collection..."
-		},
-        {
-			"key": "inputs.minThresholdScaler",
-			"title": "(Optional) Minimum threshold for intensity scaling: ",
-			"description": "Enter pixel intensity value..."
-		},
-        {
-			"key": "inputs.maxThresholdScaler",
-			"title": "(Optional) Maximum threshold for intensity scaling: ",
-			"description": "Enter pixel intensity value..."
 		}
     ]
 }
